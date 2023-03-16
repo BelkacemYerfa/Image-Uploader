@@ -15,11 +15,17 @@ export default function App() {
   };
   return (
     <div className="flex h-screen items-center justify-center">
-      <div className=" flex flex-col gap-y-2 p-2 h-[50%] w-[60%] bg-white shadow rounded-xl  ">
-        <p className="flex justify-center">
-          Insert you Image here , to Upload It to the
+      <div className=" flex flex-col gap-y-2 p-2 h-[50%] w-[60%] sm:w-[45%] md:w-[30%] bg-white shadow rounded-xl  ">
+        <p className=" text-center flex justify-center">
+          Insert you Image here , to Upload It to the DataBase
         </p>
-        {uplaodedImage && <img src={uplaodedImage} alt="uploadedImage" />}
+        {uplaodedImage ? (
+          <img
+            src={uplaodedImage}
+            className="h-[70%] w-auto object-contain rounded-md"
+            alt="uploadedImage"
+          />
+        ) : null}
         <label
           htmlFor="inputFile"
           className=" h-full w-full flex justify-center items-end"
