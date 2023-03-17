@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer {
+  .App {
+    @apply !tracking-[-.035em];
+  }
+  .Title {
+    @apply text-2xl font-medium text-primaryTitle !important;
+  }
+  .img {
+    @apply rounded-xl;
+  }
+}

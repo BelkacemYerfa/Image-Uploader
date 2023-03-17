@@ -7,7 +7,7 @@ const multer = require("multer");
 const ImageSchema = require("./models/ImageUploadedSchema");
 const { readFileSync } = require("fs");
 
-const storage = multer.diskStorage({
+/* const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/");
   },
@@ -15,18 +15,20 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + file.originalname);
   },
 });
+This code for the local storage of the image file is not needed because the image is stored in the database.
+ */
 
-const upload = multer({ storage: storage });
+const upload = multer({ dest: "uploads/" });
 
 app.use(cors());
 app.use(express.json());
 
 app.post("/api/v1/upload", upload.single("file"), async (req, res) => {
   console.log(req.file);
-  const img_Path_Encoded = readFileSync(req.file.path).toString("base64");
+  const img_Path_Encoded = readFileSync(req.file.path);
   const image = await ImageSchema.create({
     img: {
-      data: Buffer.from(img_Path_Encoded),
+      data: Buffer.from(img_Path_Encoded, "base64"),
       contentType: req.file.mimetype,
     },
   });
@@ -34,7 +36,10 @@ app.post("/api/v1/upload", upload.single("file"), async (req, res) => {
   res.json({
     success: true,
     message: "File uploaded successfully",
-    file: img_Path_Decoded,
+    file: {
+      img: img_Path_Decoded,
+      contentType: image.img.contentType,
+    },
   });
 });
 
